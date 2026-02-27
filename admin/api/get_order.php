@@ -38,7 +38,7 @@ if (mysqli_num_rows($result) === 0) {
 $order = mysqli_fetch_assoc($result);
 
 // Fetch order items with deposit info
-$itemsQuery = "SELECT ri.rental_item_id, ri.item_id, ri.item_price, ri.item_status, ri.quantity,
+$itemsQuery = "SELECT ri.rental_item_id, ri.item_id, ri.item_price, ri.item_status,
                       i.item_name, i.description, i.category, i.image, i.price_per_day, i.deposit
                FROM rental_item ri
                LEFT JOIN item i ON ri.item_id = i.item_id
@@ -58,7 +58,6 @@ $duration = $startDate->diff($endDate)->days + 1;
 while ($item = mysqli_fetch_assoc($itemsResult)) {
     $dailyRate = floatval($item['price_per_day'] ?? $item['item_price'] ?? 0);
     $itemDeposit = floatval($item['deposit'] ?? 0);
-    $qty = intval($item['quantity'] ?? 1);
     $totalDeposit += $itemDeposit;
 
     $items[] = [
@@ -67,9 +66,9 @@ while ($item = mysqli_fetch_assoc($itemsResult)) {
         'category' => $item['category'] ?? 'Equipment',
         'image' => $item['image'] ? 'assets/images/items/' . $item['image'] : null,
         'description' => $item['description'],
-        'quantity' => $qty,
+        'quantity' => 1,
         'dailyRate' => $dailyRate,
-        'subtotal' => $dailyRate * $duration * $qty,
+        'subtotal' => $dailyRate * $duration,
         'deposit' => $itemDeposit,
         'status' => $item['item_status']
     ];

@@ -91,7 +91,6 @@ function initCartLogic() {
         const start = new Date(startInput.value);
         const end = new Date(endInput.value);
         const pricePerDay = parseFloat(card.dataset.price);
-        const quantity = parseInt(card.dataset.quantity) || 1;
     
         if (end < start) {
             endInput.value = startInput.value;
@@ -103,9 +102,9 @@ function initCartLogic() {
         const diffTime = end - start;
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
     
-        // UI Update - include quantity in calculation
+        // UI Update
         daysDisplay.textContent = `${diffDays} day${diffDays > 1 ? 's' : ''}`;
-        const total = pricePerDay * diffDays * quantity;
+        const total = pricePerDay * diffDays;
         subtotalDisplay.textContent = `₱${total.toLocaleString()}`;
     
         // DATABASE UPDATE

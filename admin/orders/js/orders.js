@@ -90,24 +90,12 @@ function getInitial(name) {
  */
 function renderOrderRow(order) {
     const initial = getInitial(order.customer.name);
-    const uniqueItems = order.items.length;
-    const totalUnits = order.items.reduce((sum, item) => sum + item.quantity, 0);
-
-    let itemsText;
-    if (uniqueItems === 0) {
-        itemsText = 'No items';
-    } else if (uniqueItems === 1) {
-        const qty = order.items[0].quantity;
-        itemsText = qty > 1
-            ? `${order.items[0].name} <span style="font-size:0.75rem;font-weight:600;color:#6b7280;background:#f3f4f6;border-radius:4px;padding:1px 6px;">×${qty}</span>`
-            : order.items[0].name;
-    } else {
-        itemsText = `${order.items[0].name} +${uniqueItems - 1} more`;
-    }
-
-    const itemCountLabel = uniqueItems === 1
-        ? (totalUnits > 1 ? `${totalUnits} units` : '1 unit')
-        : `${uniqueItems} item${uniqueItems !== 1 ? 's' : ''} · ${totalUnits} unit${totalUnits !== 1 ? 's' : ''}`;
+    const itemsText = order.items.length === 0
+        ? 'No items'
+        : order.items.length === 1 
+            ? order.items[0].name 
+            : `${order.items[0].name} +${order.items.length - 1} more`;
+    const totalItems = order.items.reduce((sum, item) => sum + item.quantity, 0);
     
     return `
         <tr data-order-id="${order.order_id}">
@@ -130,7 +118,7 @@ function renderOrderRow(order) {
             <td>
                 <div class="items-cell">
                     <span class="item-name">${itemsText}</span>
-                    <span class="item-count">${itemCountLabel}</span>
+                    <span class="item-count">${totalItems} item${totalItems !== 1 ? 's' : ''}</span>
                 </div>
             </td>
             <td>

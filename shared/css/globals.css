@@ -598,7 +598,7 @@ img {
 
 .footer-nav a {
     font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--text-primary, #1e293b);
     text-decoration: none;
     transition: color 0.2s ease;
 }
@@ -615,7 +615,6 @@ img {
     max-width: none;
     margin: 0;
     padding-top: 1rem;
-    text-align: center;
 }
 
 .footer-copyright {
